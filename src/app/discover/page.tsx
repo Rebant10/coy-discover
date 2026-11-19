@@ -65,7 +65,6 @@ export default function DiscoverPage() {
       console.error('Failed to record swipe:', err);
     }
 
-    // Smooth exit delay
     setTimeout(() => {
       setProfiles((prev) => prev.filter((p) => p.id !== profileId));
       setExternalTrigger(null);
@@ -109,7 +108,7 @@ export default function DiscoverPage() {
     }
   };
 
-  // Keyboard controls for desktop
+  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showMatch || profiles.length === 0 || swipingRef.current) return;
@@ -155,7 +154,7 @@ export default function DiscoverPage() {
             setLoading(true);
             fetchFeed();
           }}
-          className="px-5 py-2 rounded-full bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all"
+          className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all"
         >
           Try Again
         </button>
@@ -169,29 +168,28 @@ export default function DiscoverPage() {
       <Confetti active={showConfetti} />
 
       {/* Top Header - Coy Brand Style */}
-      <header className="flex-shrink-0 px-5 pt-3 pb-2 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
-        <div className="flex items-center gap-2">
-          {/* Official Coy Logo Style */}
+      <header className="flex-shrink-0 px-4 py-2.5 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div className="flex items-center gap-1.5">
           <div className="flex items-baseline">
-            <span className="text-2xl font-black tracking-tight text-gray-900">coy</span>
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 ml-0.5" />
+            <span className="text-2xl font-black tracking-tight text-gray-900 leading-none">coy</span>
+            <span className="w-2 h-2 rounded-full bg-rose-500 ml-0.5" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-gray-300 ml-1">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 ml-1.5">
             Discover
           </span>
         </div>
 
         <Link
           href="/matches"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold transition-all hover:bg-rose-100/70 active:scale-95"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap transition-all hover:bg-rose-100/70 active:scale-95 shadow-sm"
         >
           <span>💕</span>
           <span>Matches</span>
         </Link>
       </header>
 
-      {/* Card Deck Area (Fills available space) */}
-      <div className="flex-1 min-h-0 relative px-3 py-2 flex items-center justify-center overflow-hidden">
+      {/* Card Deck Area */}
+      <div className="flex-1 min-h-0 relative px-2.5 py-1.5 flex items-center justify-center overflow-hidden">
         {profiles.length === 0 ? (
           <EmptyState onReset={handleReset} />
         ) : (
@@ -211,15 +209,15 @@ export default function DiscoverPage() {
 
       {/* Action Buttons Bar - Fixed Height, Spaced Cleanly from TabBar */}
       {profiles.length > 0 && (
-        <div className="flex-shrink-0 h-[72px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/90 backdrop-blur-sm border-t border-gray-100/60">
+        <div className="flex-shrink-0 h-[72px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/95 backdrop-blur-sm border-t border-gray-100/80">
           {/* Undo Button */}
           <button
             onClick={handleUndo}
             disabled={!canUndo || undoing}
-            className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-150 ${
+            className={`w-11 h-11 rounded-full inline-flex items-center justify-center transition-all duration-150 ${
               canUndo
-                ? 'bg-amber-50 border-2 border-amber-200 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90'
-                : 'bg-gray-100/70 border border-gray-200/60 text-gray-300 cursor-not-allowed opacity-50'
+                ? 'bg-amber-50 border-2 border-amber-300 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90'
+                : 'bg-gray-100 border border-gray-200 text-gray-300 cursor-not-allowed opacity-50'
             }`}
             title="Undo last swipe (Ctrl+Z)"
             aria-label="Undo"
@@ -240,7 +238,7 @@ export default function DiscoverPage() {
           {/* Pass / Nope Button */}
           <button
             onClick={() => triggerAction('pass')}
-            className="w-14 h-14 rounded-full bg-white border-2 border-rose-300 text-rose-500 shadow-lg shadow-rose-100 hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-white border-2 border-rose-300 text-rose-500 shadow-lg shadow-rose-100 hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Pass (Swipe Left)"
             aria-label="Pass"
           >
@@ -260,7 +258,7 @@ export default function DiscoverPage() {
           {/* Like / Heart Button */}
           <button
             onClick={() => triggerAction('like')}
-            className="w-15 h-15 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-600 text-white shadow-xl shadow-rose-500/35 hover:from-rose-600 hover:to-pink-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            className="w-15 h-15 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-600 text-white shadow-xl shadow-rose-500/35 hover:from-rose-600 hover:to-pink-600 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Like (Swipe Right)"
             aria-label="Like"
           >
@@ -278,7 +276,7 @@ export default function DiscoverPage() {
           {/* Reset Demo Button */}
           <button
             onClick={handleReset}
-            className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-400 shadow-sm hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-400 shadow-sm hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Reset demo swipes"
             aria-label="Reset"
           >

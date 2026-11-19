@@ -38,8 +38,8 @@ export default function TabBar() {
   ];
 
   return (
-    <nav className="w-full flex-shrink-0 bg-white border-t border-gray-100 z-30 select-none pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
-      <div className="flex justify-around items-center h-[58px] px-4 max-w-sm mx-auto">
+    <nav className="w-full flex-shrink-0 bg-white border-t border-gray-100 z-30 select-none pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-2px_10px_rgba(0,0,0,0.03)]">
+      <div className="flex justify-around items-center h-[56px] px-6 max-w-sm mx-auto">
         {tabs.map((tab) => {
           const isActive = pathname === tab.href || (tab.href === '/discover' && pathname === '/');
           const Icon = tab.icon;
@@ -56,12 +56,12 @@ export default function TabBar() {
               <div className="relative flex items-center justify-center">
                 <Icon className="w-6 h-6 transition-transform duration-150" filled={isActive} />
                 {tab.badge > 0 && (
-                  <span className="absolute -top-1 -right-2 min-w-[16px] h-[16px] bg-rose-500 text-white text-[9px] font-black rounded-full flex items-center justify-center px-1 shadow-sm">
+                  <span className="absolute -top-1.5 -right-2.5 w-4 h-4 bg-rose-500 text-white text-[9px] font-black rounded-full inline-flex items-center justify-center leading-none shadow-sm">
                     {tab.badge}
                   </span>
                 )}
               </div>
-              <span className="text-[10px] mt-1 tracking-tight">{tab.label}</span>
+              <span className="text-[10px] mt-0.5 tracking-tight font-semibold leading-none">{tab.label}</span>
               {isActive && (
                 <span className="absolute bottom-0 w-3 h-0.5 rounded-full bg-rose-500" />
               )}

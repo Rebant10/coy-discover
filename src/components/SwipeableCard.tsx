@@ -22,13 +22,10 @@ export default function SwipeableCard({
   const [swiping, setSwiping] = useState(false);
 
   const x = useMotionValue(0);
-  // Rotation proportional to drag
-  const rotate = useTransform(x, [-240, 0, 240], [-15, 0, 15]);
-  // Like & Nope stamp opacity
+  const rotate = useTransform(x, [-240, 0, 240], [-14, 0, 14]);
   const likeOpacity = useTransform(x, [15, 90], [0, 1]);
   const passOpacity = useTransform(x, [-15, -90], [0, 1]);
 
-  // Handle external trigger (from button taps or keyboard)
   useEffect(() => {
     if (externalTrigger && isTop && !swiping) {
       const dir = externalTrigger === 'like' ? 600 : -600;
@@ -53,11 +50,11 @@ export default function SwipeableCard({
     }
   };
 
-  // Background card in deck (stacked behind)
+  // Background stacked card
   if (!isTop) {
     return (
-      <div className="absolute inset-0 flex items-center justify-center p-3 pointer-events-none">
-        <div className="w-full h-full max-h-[580px] rounded-[28px] transform scale-[0.95] translate-y-3 opacity-60 transition-all duration-300">
+      <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4 pointer-events-none">
+        <div className="w-full h-full max-h-[560px] rounded-[28px] transform scale-[0.95] translate-y-3 opacity-60 transition-all duration-300">
           <ProfileCard profile={profile} />
         </div>
       </div>
@@ -66,9 +63,9 @@ export default function SwipeableCard({
 
   // Active top card
   return (
-    <div className="absolute inset-0 flex items-center justify-center p-3 z-10">
+    <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4 z-10">
       <motion.div
-        className="w-full h-full max-h-[580px] relative cursor-grab active:cursor-grabbing select-none touch-none"
+        className="w-full h-full max-h-[560px] relative cursor-grab active:cursor-grabbing select-none touch-none"
         style={{ x, rotate }}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
@@ -79,7 +76,7 @@ export default function SwipeableCard({
             ? {
                 x: exitX,
                 opacity: 0,
-                rotate: exitX > 0 ? 20 : -20,
+                rotate: exitX > 0 ? 18 : -18,
                 transition: { duration: 0.28, ease: 'easeOut' },
               }
             : { x: 0, opacity: 1 }
@@ -90,20 +87,20 @@ export default function SwipeableCard({
       >
         {/* LIKE Stamp */}
         <motion.div
-          className="absolute top-8 left-6 z-30 pointer-events-none border-4 border-emerald-400 bg-emerald-500/20 backdrop-blur-sm px-4 py-1.5 rounded-2xl shadow-xl shadow-emerald-500/30"
-          style={{ opacity: likeOpacity, rotate: -18 }}
+          className="absolute top-8 left-6 z-30 pointer-events-none border-4 border-emerald-400 bg-emerald-500/25 backdrop-blur-md px-4 py-1.5 rounded-2xl shadow-xl shadow-emerald-500/30"
+          style={{ opacity: likeOpacity, rotate: -16 }}
         >
-          <span className="text-emerald-400 text-3xl sm:text-4xl font-black tracking-widest uppercase drop-shadow">
+          <span className="text-emerald-400 text-3xl font-black tracking-widest uppercase drop-shadow">
             LIKE
           </span>
         </motion.div>
 
         {/* NOPE Stamp */}
         <motion.div
-          className="absolute top-8 right-6 z-30 pointer-events-none border-4 border-rose-500 bg-rose-500/20 backdrop-blur-sm px-4 py-1.5 rounded-2xl shadow-xl shadow-rose-500/30"
-          style={{ opacity: passOpacity, rotate: 18 }}
+          className="absolute top-8 right-6 z-30 pointer-events-none border-4 border-rose-500 bg-rose-500/25 backdrop-blur-md px-4 py-1.5 rounded-2xl shadow-xl shadow-rose-500/30"
+          style={{ opacity: passOpacity, rotate: 16 }}
         >
-          <span className="text-rose-400 text-3xl sm:text-4xl font-black tracking-widest uppercase drop-shadow">
+          <span className="text-rose-400 text-3xl font-black tracking-widest uppercase drop-shadow">
             NOPE
           </span>
         </motion.div>

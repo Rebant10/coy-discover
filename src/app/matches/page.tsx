@@ -42,23 +42,23 @@ export default function MatchesPage() {
 
   return (
     <div className="h-full overflow-y-auto overscroll-contain px-4 pt-3 pb-8 select-none bg-gray-50/40">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-100">
-        <div className="flex items-center gap-2">
+      {/* Header - Coy Brand Style */}
+      <div className="flex items-center justify-between gap-2 mb-4 pb-2.5 border-b border-gray-100">
+        <div className="flex items-center gap-1.5">
           <div className="flex items-baseline">
-            <span className="text-2xl font-black tracking-tight text-gray-900">coy</span>
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 ml-0.5" />
+            <span className="text-2xl font-black tracking-tight text-gray-900 leading-none">coy</span>
+            <span className="w-2 h-2 rounded-full bg-rose-500 ml-0.5" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-gray-300 ml-1">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 ml-1.5">
             Matches
           </span>
         </div>
 
         <Link
           href="/discover"
-          className="text-xs font-bold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-full transition-all active:scale-95 border border-rose-200/80"
+          className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap transition-all active:scale-95 shadow-sm"
         >
-          + Discover
+          <span>+ Discover</span>
         </Link>
       </div>
 
@@ -74,17 +74,18 @@ export default function MatchesPage() {
           </p>
           <Link
             href="/discover"
-            className="px-7 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25 hover:brightness-110 active:scale-95 transition-all"
+            className="inline-flex items-center justify-center gap-1.5 px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
           >
-            Start Discovering 🔥
+            <span>Start Discovering</span>
+            <span>🔥</span>
           </Link>
         </div>
       ) : (
-        <div className="space-y-5">
-          {/* Top Horizontal Story / New Matches Row (Tinder / Bumble Style) */}
+        <div className="flex flex-col gap-5">
+          {/* Top Horizontal Story / New Matches Row */}
           <div>
             <div className="flex items-center justify-between mb-2.5 px-1">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              <h3 className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400">
                 New Matches ({matches.length})
               </h3>
             </div>
@@ -102,7 +103,7 @@ export default function MatchesPage() {
                       />
                     </div>
                   </div>
-                  <span className="text-[11px] font-bold text-gray-700 mt-1 max-w-[64px] truncate">
+                  <span className="text-[11px] font-bold text-gray-700 mt-1 max-w-[64px] truncate text-center">
                     {match.profile.name.split(' ')[0]}
                   </span>
                 </div>
@@ -110,22 +111,22 @@ export default function MatchesPage() {
             </div>
           </div>
 
-          {/* Matches List Section */}
+          {/* Connections List */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-2.5 px-1">
+            <h3 className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 mb-2.5 px-1">
               All Connections
             </h3>
-            <div className="space-y-2.5">
+            <div className="flex flex-col gap-2.5">
               {matches.map((match, index) => (
                 <motion.div
                   key={match.id}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.04, duration: 0.2 }}
-                  className="flex items-center gap-3.5 p-3.5 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow active:bg-gray-50/80 cursor-pointer"
+                  className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow active:bg-gray-50/80 cursor-pointer"
                 >
                   {/* Avatar */}
-                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100 bg-gray-900">
+                  <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-2xl overflow-hidden flex-shrink-0 border border-gray-100 bg-gray-900">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={match.profile.photo}
@@ -142,7 +143,7 @@ export default function MatchesPage() {
                       <h4 className="font-bold text-gray-900 text-sm truncate">
                         {match.profile.name}
                       </h4>
-                      <span className="text-xs font-semibold text-rose-500">
+                      <span className="text-xs font-semibold text-rose-500 flex-shrink-0">
                         {match.profile.age}
                       </span>
                     </div>
@@ -155,7 +156,7 @@ export default function MatchesPage() {
                       {match.profile.interests.slice(0, 3).map((interest) => (
                         <span
                           key={interest}
-                          className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[10px] font-semibold"
+                          className="inline-flex items-center px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[10px] font-semibold leading-none"
                         >
                           {interest}
                         </span>
@@ -170,7 +171,7 @@ export default function MatchesPage() {
                         e.stopPropagation();
                         alert(`Opening chat with ${match.profile.name}! 👋`);
                       }}
-                      className="px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all"
+                      className="inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[11px] font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all whitespace-nowrap leading-none"
                     >
                       Say Hi 👋
                     </button>

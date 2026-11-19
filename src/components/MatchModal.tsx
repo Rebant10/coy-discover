@@ -49,7 +49,7 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.1, type: 'spring' }}
-              className="px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300 text-xs font-bold tracking-wider uppercase mb-4"
+              className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300 text-[11px] font-extrabold tracking-wider uppercase mb-3 leading-none whitespace-nowrap"
             >
               Mutual Connection
             </motion.div>
@@ -65,7 +65,7 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
             </motion.h2>
 
             <motion.p
-              className="text-white/80 text-sm font-medium mb-8 max-w-xs"
+              className="text-white/80 text-xs sm:text-sm font-medium mb-6 max-w-xs leading-relaxed"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -73,15 +73,15 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
               You and <span className="text-white font-bold">{profile.name}</span> secretly liked each other.
             </motion.p>
 
-            {/* Overlapping Avatars (Tinder / Bumble Style) */}
+            {/* Overlapping Avatars */}
             <motion.div
-              className="relative flex items-center justify-center mb-10 w-full"
+              className="relative flex items-center justify-center mb-8 w-full"
               initial={{ scale: 0.7, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.35, type: 'spring' }}
             >
               {/* User Avatar (Left) */}
-              <div className="relative -mr-4 w-24 h-24 rounded-full border-4 border-white shadow-2xl overflow-hidden bg-rose-100 z-10 transform -rotate-6">
+              <div className="relative -mr-3 w-22 h-22 sm:w-24 sm:h-24 rounded-full border-4 border-white shadow-2xl overflow-hidden bg-rose-100 z-10 transform -rotate-6">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80"
@@ -92,7 +92,7 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
               </div>
 
               {/* Matched Profile Avatar (Right) */}
-              <div className="relative -ml-4 w-24 h-24 rounded-full border-4 border-rose-500 shadow-2xl overflow-hidden bg-gray-900 z-10 transform rotate-6">
+              <div className="relative -ml-3 w-22 h-22 sm:w-24 sm:h-24 rounded-full border-4 border-rose-500 shadow-2xl overflow-hidden bg-gray-900 z-10 transform rotate-6">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={profile.photo}
@@ -108,25 +108,25 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
               </div>
             </motion.div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons - flex-col with gap-3 (guaranteed clean separation) */}
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.45 }}
-              className="w-full space-y-3"
+              className="w-full flex flex-col gap-3"
             >
               <button
                 onClick={() => {
                   onClose();
                   router.push('/matches');
                 }}
-                className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-bold text-base shadow-xl shadow-rose-500/30 hover:brightness-110 active:scale-95 transition-all"
+                className="w-full h-12 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-bold text-sm shadow-xl shadow-rose-500/30 hover:brightness-110 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap"
               >
                 View in Matches 💕
               </button>
               <button
                 onClick={onClose}
-                className="w-full py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm backdrop-blur-md active:scale-95 transition-all"
+                className="w-full h-11 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-xs backdrop-blur-md active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap"
               >
                 Keep Swiping
               </button>
