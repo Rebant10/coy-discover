@@ -11,6 +11,7 @@ import { Profile } from '@/lib/types';
 export default function DiscoverPage() {
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [matchedProfile, setMatchedProfile] = useState<Profile | null>(null);
   const [showMatch, setShowMatch] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
@@ -21,11 +22,17 @@ export default function DiscoverPage() {
 
   const fetchFeed = useCallback(async () => {
     try {
+      setError(null);
       const res = await fetch('/api/feed');
+      if (!res.ok) {
+        throw new Error(`Feed request failed (${res.status})`);
+      }
       const data = await res.json();
       setProfiles(data.profiles || []);
-    } catch (error) {
-      console.error('Failed to fetch feed:', error);
+    } catch (err: unknown) {
+      console.error('Failed to fetch feed:', err);
+      const msg = err instanceof Error ? err.message : 'Failed to connect to feed';
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -45,20 +52,20 @@ export default function DiscoverPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ profileId, action }),
       });
-      const data = await res.json();
-
-      if (data.matched && data.matchedProfile) {
-        setMatchedProfile(data.matchedProfile);
-        setShowConfetti(true);
-        setTimeout(() => setShowMatch(true), 150);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.matched && data.matchedProfile) {
+          setMatchedProfile(data.matchedProfile);
+          setShowConfetti(true);
+          setTimeout(() => setShowMatch(true), 150);
+        }
       }
-
       setCanUndo(true);
-    } catch (error) {
-      console.error('Failed to record swipe:', error);
+    } catch (err) {
+      console.error('Failed to record swipe:', err);
     }
 
-    // Remove profile after exit animation
+    // Smooth exit delay
     setTimeout(() => {
       setProfiles((prev) => prev.filter((p) => p.id !== profileId));
       setExternalTrigger(null);
@@ -66,7 +73,6 @@ export default function DiscoverPage() {
     }, 280);
   }, []);
 
-  // Trigger swipe via button click or keyboard
   const triggerAction = (action: 'like' | 'pass') => {
     if (profiles.length === 0 || swipingRef.current || showMatch) return;
     setExternalTrigger(action);
@@ -78,14 +84,15 @@ export default function DiscoverPage() {
 
     try {
       const res = await fetch('/api/undo', { method: 'POST' });
-      const data = await res.json();
-
-      if (data.success && data.undoneProfile) {
-        setProfiles((prev) => [data.undoneProfile, ...prev]);
-        setCanUndo(false);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.undoneProfile) {
+          setProfiles((prev) => [data.undoneProfile, ...prev]);
+          setCanUndo(false);
+        }
       }
-    } catch (error) {
-      console.error('Failed to undo:', error);
+    } catch (err) {
+      console.error('Failed to undo:', err);
     } finally {
       setUndoing(false);
     }
@@ -97,12 +104,12 @@ export default function DiscoverPage() {
       setCanUndo(false);
       setLoading(true);
       await fetchFeed();
-    } catch (error) {
-      console.error('Failed to reset:', error);
+    } catch (err) {
+      console.error('Failed to reset:', err);
     }
   };
 
-  // Keyboard controls for desktop testing
+  // Keyboard controls for desktop
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (showMatch || profiles.length === 0 || swipingRef.current) return;
@@ -126,50 +133,64 @@ export default function DiscoverPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full px-4">
+      <div className="flex flex-col items-center justify-center h-full px-6 bg-white">
         <div className="w-14 h-14 rounded-full bg-rose-50 border-2 border-rose-200 flex items-center justify-center animate-pulse mb-3">
           <span className="text-2xl">✨</span>
         </div>
-        <p className="text-sm font-medium text-gray-400 animate-pulse">
-          Loading discovery feed...
+        <p className="text-sm font-semibold text-gray-500 animate-pulse">
+          Finding people near you...
         </p>
       </div>
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full px-6 text-center bg-white">
+        <div className="text-4xl mb-3">⚠️</div>
+        <h2 className="text-lg font-bold text-gray-800 mb-1">Couldn&apos;t load feed</h2>
+        <p className="text-xs text-gray-500 mb-4 max-w-xs">{error}</p>
+        <button
+          onClick={() => {
+            setLoading(true);
+            fetchFeed();
+          }}
+          className="px-5 py-2 rounded-full bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="h-full flex flex-col justify-between relative overflow-hidden select-none">
-      {/* Confetti overlay for matches */}
+    <div className="h-full flex flex-col justify-between relative overflow-hidden select-none bg-gray-50/50">
+      {/* Confetti celebration for matches */}
       <Confetti active={showConfetti} />
 
-      {/* Top Header - Mobile friendly */}
-      <header className="flex-shrink-0 px-4 pt-3.5 pb-2 flex items-center justify-between z-20 bg-white/95 backdrop-blur-sm border-b border-gray-50">
-        <div>
-          <div className="flex items-center gap-1.5">
-            <span className="text-xl">🔥</span>
-            <h1 className="text-xl sm:text-2xl font-black bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 bg-clip-text text-transparent tracking-tight">
-              Discover
-            </h1>
+      {/* Top Header - Coy Brand Style */}
+      <header className="flex-shrink-0 px-5 pt-3 pb-2 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div className="flex items-center gap-2">
+          {/* Official Coy Logo Style */}
+          <div className="flex items-baseline">
+            <span className="text-2xl font-black tracking-tight text-gray-900">coy</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 ml-0.5" />
           </div>
-          <p className="text-[11px] sm:text-xs text-gray-400 font-medium">
-            {profiles.length} {profiles.length === 1 ? 'profile' : 'profiles'} waiting
-          </p>
+          <span className="text-xs font-bold uppercase tracking-wider text-gray-300 ml-1">
+            Discover
+          </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
-          {/* Quick link to Matches */}
-          <Link
-            href="/matches"
-            className="flex items-center gap-1 px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-full text-xs font-semibold transition-all active:scale-95"
-            title="View Matches"
-          >
-            <span>💕</span>
-            <span>Matches</span>
-          </Link>
-        </div>
+        <Link
+          href="/matches"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold transition-all hover:bg-rose-100/70 active:scale-95"
+        >
+          <span>💕</span>
+          <span>Matches</span>
+        </Link>
       </header>
 
-      {/* Card Deck Area (fills remaining vertical space) */}
+      {/* Card Deck Area (Fills available space) */}
       <div className="flex-1 min-h-0 relative px-3 py-2 flex items-center justify-center overflow-hidden">
         {profiles.length === 0 ? (
           <EmptyState onReset={handleReset} />
@@ -188,76 +209,95 @@ export default function DiscoverPage() {
         )}
       </div>
 
-      {/* Controls / Floating Action Buttons Bar (Always anchored above TabBar) */}
+      {/* Action Buttons Bar - Fixed Height, Spaced Cleanly from TabBar */}
       {profiles.length > 0 && (
-        <div className="flex-shrink-0 py-2 sm:py-3 px-4 flex flex-col items-center z-20 bg-gradient-to-t from-white via-white/90 to-transparent">
-          <div className="flex items-center justify-center gap-4 sm:gap-6">
-            {/* Undo Button */}
-            <button
-              onClick={handleUndo}
-              disabled={!canUndo || undoing}
-              className={`w-11 h-11 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all duration-150 ${
-                canUndo
-                  ? 'bg-amber-50 border border-amber-200 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90'
-                  : 'bg-gray-100/60 border border-gray-200/50 text-gray-300 cursor-not-allowed opacity-50'
-              }`}
-              title="Undo last swipe (Ctrl+Z)"
-              aria-label="Undo last swipe"
+        <div className="flex-shrink-0 h-[72px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/90 backdrop-blur-sm border-t border-gray-100/60">
+          {/* Undo Button */}
+          <button
+            onClick={handleUndo}
+            disabled={!canUndo || undoing}
+            className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-150 ${
+              canUndo
+                ? 'bg-amber-50 border-2 border-amber-200 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90'
+                : 'bg-gray-100/70 border border-gray-200/60 text-gray-300 cursor-not-allowed opacity-50'
+            }`}
+            title="Undo last swipe (Ctrl+Z)"
+            aria-label="Undo"
+          >
+            <svg
+              width="20"
+              height="20"
+              style={{ width: '20px', height: '20px' }}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.5}
+              viewBox="0 0 24 24"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4" />
-              </svg>
-            </button>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4" />
+            </svg>
+          </button>
 
-            {/* Pass / Nope Button */}
-            <button
-              onClick={() => triggerAction('pass')}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white border-2 border-rose-200 text-rose-500 shadow-lg hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 flex items-center justify-center"
-              title="Pass (Swipe Left / ←)"
-              aria-label="Pass profile"
+          {/* Pass / Nope Button */}
+          <button
+            onClick={() => triggerAction('pass')}
+            className="w-14 h-14 rounded-full bg-white border-2 border-rose-300 text-rose-500 shadow-lg shadow-rose-100 hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            title="Pass (Swipe Left)"
+            aria-label="Pass"
+          >
+            <svg
+              width="28"
+              height="28"
+              style={{ width: '28px', height: '28px' }}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={3}
+              viewBox="0 0 24 24"
             >
-              <svg className="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
 
-            {/* Like / Match Button */}
-            <button
-              onClick={() => triggerAction('like')}
-              className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-rose-500 to-pink-500 text-white shadow-xl shadow-rose-500/25 hover:from-rose-600 hover:to-pink-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
-              title="Like (Swipe Right / →)"
-              aria-label="Like profile"
+          {/* Like / Heart Button */}
+          <button
+            onClick={() => triggerAction('like')}
+            className="w-15 h-15 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-600 text-white shadow-xl shadow-rose-500/35 hover:from-rose-600 hover:to-pink-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            title="Like (Swipe Right)"
+            aria-label="Like"
+          >
+            <svg
+              width="30"
+              height="30"
+              style={{ width: '30px', height: '30px' }}
+              className="fill-current"
+              viewBox="0 0 24 24"
             >
-              <svg className="w-7 h-7 sm:w-8 sm:h-8 fill-current" viewBox="0 0 24 24">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-              </svg>
-            </button>
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </button>
 
-            {/* Reset Button (for demo purposes) */}
-            <button
-              onClick={handleReset}
-              className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-gray-50 border border-gray-200 text-gray-400 shadow-sm hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
-              title="Reset all swipes (for demo)"
-              aria-label="Reset swipes"
+          {/* Reset Demo Button */}
+          <button
+            onClick={handleReset}
+            className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-400 shadow-sm hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 flex items-center justify-center"
+            title="Reset demo swipes"
+            aria-label="Reset"
+          >
+            <svg
+              width="20"
+              height="20"
+              style={{ width: '20px', height: '20px' }}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2.2}
+              viewBox="0 0 24 24"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Desktop shortcut hint */}
-          <div className="hidden sm:flex items-center gap-2 mt-1.5 text-[10px] text-gray-300 font-medium">
-            <span>← Pass</span>
-            <span>•</span>
-            <span>→ Like</span>
-            <span>•</span>
-            <span>Ctrl+Z Undo</span>
-          </div>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
         </div>
       )}
 
-      {/* Match Celebration Modal */}
+      {/* Match Modal */}
       <MatchModal
         profile={matchedProfile}
         isOpen={showMatch}

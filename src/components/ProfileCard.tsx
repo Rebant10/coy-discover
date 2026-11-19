@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Profile } from '@/lib/types';
 
 interface ProfileCardProps {
@@ -5,84 +8,92 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ profile }: ProfileCardProps) {
+  const [showDetails, setShowDetails] = useState(false);
+
   return (
-    <div className="w-full h-full bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col select-none touch-none">
-      {/* Photo section */}
-      <div className="relative flex-shrink-0 h-[56%] sm:h-[60%] w-full bg-gray-900 overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={profile.photo}
-          alt={profile.name}
-          className="w-full h-full object-cover object-top select-none pointer-events-none"
-          draggable={false}
-          loading="eager"
-        />
+    <div className="relative w-full h-full rounded-[28px] overflow-hidden bg-gray-900 shadow-2xl border border-black/10 select-none touch-none flex flex-col justify-end">
+      {/* Background Photo - Full Bleed */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={profile.photo}
+        alt={profile.name}
+        className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none transition-transform duration-500"
+        draggable={false}
+        loading="eager"
+      />
 
-        {/* Coy-style gradient bottom overlay for text readability */}
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent pt-12 pb-3.5 px-4">
-          <div className="flex items-baseline gap-2">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight drop-shadow">
-              {profile.name}
-            </h2>
-            <span className="text-xl sm:text-2xl font-semibold text-rose-300 drop-shadow">
-              {profile.age}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1.5 mt-0.5 text-white/90 text-xs sm:text-sm font-medium">
-            <svg
-              width="14"
-              height="14"
-              style={{ width: '14px', height: '14px' }}
-              className="w-3.5 h-3.5 text-rose-400 flex-shrink-0"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-            </svg>
-            <span>{profile.city}</span>
-          </div>
-        </div>
+      {/* Top Floating Badge */}
+      <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-white text-xs font-semibold">
+        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <span>Active nearby</span>
       </div>
 
-      {/* Info section */}
-      <div className="flex-1 min-h-0 p-3.5 sm:p-4 overflow-y-auto overscroll-contain flex flex-col justify-between bg-white">
-        <div>
-          {/* College pill */}
-          <div className="inline-flex items-center gap-1.5 text-gray-700 text-xs sm:text-sm font-medium mb-2.5 bg-gray-50 border border-gray-200/70 px-3 py-1 rounded-full">
-            <svg
-              width="16"
-              height="16"
-              style={{ width: '16px', height: '16px' }}
-              className="w-4 h-4 text-rose-500 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-            </svg>
-            <span className="truncate">{profile.college}</span>
-          </div>
+      {/* Top Right Info Toggle Button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowDetails(!showDetails);
+        }}
+        className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-black/60 transition-colors"
+        aria-label="Toggle details"
+      >
+        <span className="text-xs font-bold font-serif">{showDetails ? '✕' : 'ℹ'}</span>
+      </button>
 
-          {/* Bio text */}
-          <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mb-3">
-            {profile.bio}
-          </p>
+      {/* Deep Gradient Overlay for text contrast */}
+      <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/95 via-black/60 via-40% to-transparent pointer-events-none" />
+
+      {/* Bottom Content Area */}
+      <div className="relative z-10 p-5 sm:p-6 text-white flex flex-col gap-2">
+        {/* Name & Age Row */}
+        <div className="flex items-baseline gap-2.5">
+          <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">
+            {profile.name}
+          </h2>
+          <span className="text-2xl font-light text-rose-300 drop-shadow">
+            {profile.age}
+          </span>
+          <span className="text-emerald-400 text-sm" title="Verified">
+            ✓
+          </span>
         </div>
 
-        {/* Interests pills */}
+        {/* Location & College Pills */}
+        <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-white/90">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/15">
+            <span>📍</span>
+            <span>{profile.city}</span>
+          </span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/15">
+            <span>🎓</span>
+            <span className="truncate max-w-[170px]">{profile.college}</span>
+          </span>
+        </div>
+
+        {/* Short Bio */}
+        <p className="text-xs sm:text-sm text-white/90 leading-relaxed font-normal line-clamp-2 mt-0.5">
+          {profile.bio}
+        </p>
+
+        {/* Interest tags */}
         <div className="flex flex-wrap gap-1.5 pt-1">
           {profile.interests.map((interest) => (
             <span
               key={interest}
-              className="px-2.5 py-1 bg-rose-50 border border-rose-100 text-rose-600 rounded-full text-[11px] sm:text-xs font-semibold tracking-tight"
+              className="px-2.5 py-0.5 rounded-full bg-rose-500/25 border border-rose-300/40 text-rose-200 text-[11px] font-semibold tracking-tight"
             >
               {interest}
             </span>
           ))}
         </div>
+
+        {/* Detailed Drawer (toggled via (i) button) */}
+        {showDetails && (
+          <div className="mt-2 pt-2 border-t border-white/15 text-xs text-white/80 animate-fadeIn">
+            <p className="font-semibold text-rose-300 mb-1">About {profile.name.split(' ')[0]}:</p>
+            <p className="text-white/90">{profile.bio}</p>
+          </div>
+        )}
       </div>
     </div>
   );

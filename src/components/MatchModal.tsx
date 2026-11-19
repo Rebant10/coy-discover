@@ -14,7 +14,6 @@ interface MatchModalProps {
 export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps) {
   const router = useRouter();
 
-  // Handle escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -31,92 +30,105 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 backdrop-blur-sm px-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md px-6 select-none"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <motion.div
-            className="bg-white rounded-3xl p-6 sm:p-8 max-w-xs sm:max-w-sm w-full text-center shadow-2xl max-h-[90dvh] overflow-y-auto select-none"
-            initial={{ scale: 0.7, opacity: 0, y: 30 }}
+            className="w-full max-w-sm flex flex-col items-center text-center"
+            initial={{ scale: 0.8, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.7, opacity: 0, y: 30 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+            exit={{ scale: 0.8, opacity: 0, y: 30 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 24 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Celebration emoji */}
+            {/* Header Badge */}
             <motion.div
               initial={{ scale: 0 }}
-              animate={{ scale: [0, 1.25, 1] }}
-              transition={{ delay: 0.15, duration: 0.4 }}
-              className="text-5xl sm:text-6xl mb-2"
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.1, type: 'spring' }}
+              className="px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300 text-xs font-bold tracking-wider uppercase mb-4"
             >
-              💕
+              Mutual Connection
             </motion.div>
 
+            {/* Title */}
             <motion.h2
-              className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent mb-1"
-              initial={{ y: 15, opacity: 0 }}
+              className="text-4xl sm:text-5xl font-black italic tracking-tight bg-gradient-to-r from-rose-400 via-pink-400 to-rose-300 bg-clip-text text-transparent drop-shadow-lg mb-2"
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.25 }}
+              transition={{ delay: 0.2 }}
             >
               It&apos;s a Match!
             </motion.h2>
 
             <motion.p
-              className="text-xs sm:text-sm text-gray-500 mb-5"
-              initial={{ y: 15, opacity: 0 }}
+              className="text-white/80 text-sm font-medium mb-8 max-w-xs"
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.35 }}
+              transition={{ delay: 0.3 }}
             >
-              You and <span className="font-bold text-gray-800">{profile.name}</span> liked each other!
+              You and <span className="text-white font-bold">{profile.name}</span> secretly liked each other.
             </motion.p>
 
-            {/* Profile Avatar with glow effect */}
+            {/* Overlapping Avatars (Tinder / Bumble Style) */}
             <motion.div
-              className="flex justify-center mb-6"
-              initial={{ scale: 0.5, opacity: 0 }}
+              className="relative flex items-center justify-center mb-10 w-full"
+              initial={{ scale: 0.7, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.45 }}
+              transition={{ delay: 0.35, type: 'spring' }}
             >
-              <div className="relative">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 border-rose-300 shadow-xl bg-rose-50">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={profile.photo}
-                    alt={profile.name}
-                    className="w-full h-full object-cover select-none pointer-events-none"
-                    draggable={false}
-                  />
-                </div>
-                <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-md">
-                  <span className="text-base sm:text-lg">✨</span>
-                </div>
+              {/* User Avatar (Left) */}
+              <div className="relative -mr-4 w-24 h-24 rounded-full border-4 border-white shadow-2xl overflow-hidden bg-rose-100 z-10 transform -rotate-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80"
+                  alt="You"
+                  className="w-full h-full object-cover select-none pointer-events-none"
+                  draggable={false}
+                />
+              </div>
+
+              {/* Matched Profile Avatar (Right) */}
+              <div className="relative -ml-4 w-24 h-24 rounded-full border-4 border-rose-500 shadow-2xl overflow-hidden bg-gray-900 z-10 transform rotate-6">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={profile.photo}
+                  alt={profile.name}
+                  className="w-full h-full object-cover select-none pointer-events-none"
+                  draggable={false}
+                />
+              </div>
+
+              {/* Center Floating Heart */}
+              <div className="absolute z-20 w-11 h-11 rounded-full bg-gradient-to-tr from-rose-500 to-pink-500 border-2 border-white flex items-center justify-center shadow-xl animate-bounce">
+                <span className="text-lg">💖</span>
               </div>
             </motion.div>
 
-            {/* Action buttons */}
+            {/* Action Buttons */}
             <motion.div
-              initial={{ y: 15, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.55 }}
-              className="space-y-2.5"
+              transition={{ delay: 0.45 }}
+              className="w-full space-y-3"
             >
-              <button
-                onClick={onClose}
-                className="w-full py-3 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-full font-bold text-sm sm:text-base hover:from-rose-600 hover:to-pink-700 transition-all shadow-lg shadow-rose-500/25 active:scale-95"
-              >
-                Keep Swiping
-              </button>
               <button
                 onClick={() => {
                   onClose();
                   router.push('/matches');
                 }}
-                className="w-full py-2.5 bg-rose-50/70 text-rose-600 rounded-full font-bold text-sm sm:text-base border border-rose-200 hover:bg-rose-100/70 transition-all active:scale-95"
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-bold text-base shadow-xl shadow-rose-500/30 hover:brightness-110 active:scale-95 transition-all"
               >
-                View Matches
+                View in Matches 💕
+              </button>
+              <button
+                onClick={onClose}
+                className="w-full py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/25 text-white font-semibold text-sm backdrop-blur-md active:scale-95 transition-all"
+              >
+                Keep Swiping
               </button>
             </motion.div>
           </motion.div>

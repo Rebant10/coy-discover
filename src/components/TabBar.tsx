@@ -9,12 +9,12 @@ export default function TabBar() {
   const pathname = usePathname();
   const [matchCount, setMatchCount] = useState(0);
 
-  // Poll for match updates to keep badge in sync
   useEffect(() => {
     let isMounted = true;
     const fetchCount = async () => {
       try {
         const res = await fetch('/api/matches');
+        if (!res.ok) return;
         const data = await res.json();
         if (isMounted) {
           setMatchCount(data.matches?.length || 0);
@@ -38,8 +38,8 @@ export default function TabBar() {
   ];
 
   return (
-    <nav className="w-full flex-shrink-0 bg-white border-t border-gray-100 z-30 select-none pb-[env(safe-area-inset-bottom,0px)]">
-      <div className="flex justify-around items-center h-14 sm:h-16 px-2">
+    <nav className="w-full flex-shrink-0 bg-white border-t border-gray-100 z-30 select-none pb-[env(safe-area-inset-bottom,0px)] shadow-[0_-4px_12px_rgba(0,0,0,0.03)]">
+      <div className="flex justify-around items-center h-[58px] px-4 max-w-sm mx-auto">
         {tabs.map((tab) => {
           const isActive = pathname === tab.href || (tab.href === '/discover' && pathname === '/');
           const Icon = tab.icon;
@@ -47,21 +47,24 @@ export default function TabBar() {
             <Link
               key={tab.href}
               href={tab.href}
-              className={`relative flex flex-col items-center justify-center min-w-[64px] min-h-[48px] py-1 px-3 rounded-xl transition-all duration-150 active:scale-95 ${
+              className={`relative flex flex-col items-center justify-center py-1 px-4 rounded-2xl transition-all duration-150 active:scale-90 ${
                 isActive
-                  ? 'text-rose-500 font-semibold'
+                  ? 'text-rose-500 font-bold'
                   : 'text-gray-400 hover:text-gray-600 font-medium'
               }`}
             >
               <div className="relative flex items-center justify-center">
                 <Icon className="w-6 h-6 transition-transform duration-150" filled={isActive} />
                 {tab.badge > 0 && (
-                  <span className="absolute -top-1 -right-2.5 min-w-[18px] h-[18px] bg-rose-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center px-1 shadow-sm animate-pulse">
+                  <span className="absolute -top-1 -right-2 min-w-[16px] h-[16px] bg-rose-500 text-white text-[9px] font-black rounded-full flex items-center justify-center px-1 shadow-sm">
                     {tab.badge}
                   </span>
                 )}
               </div>
-              <span className="text-[11px] sm:text-xs mt-0.5 tracking-tight">{tab.label}</span>
+              <span className="text-[10px] mt-1 tracking-tight">{tab.label}</span>
+              {isActive && (
+                <span className="absolute bottom-0 w-3 h-0.5 rounded-full bg-rose-500" />
+              )}
             </Link>
           );
         })}
