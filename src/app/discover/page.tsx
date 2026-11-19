@@ -58,9 +58,16 @@ export default function DiscoverPage() {
           setMatchedProfile(data.matchedProfile);
           setShowConfetti(true);
           setTimeout(() => setShowMatch(true), 150);
+          // When it's a match, rollback is disabled
+          setCanUndo(false);
+        } else if (action === 'pass') {
+          // Rollback is ONLY allowed when passing (disliking) someone by accident
+          setCanUndo(true);
+        } else {
+          // Regular like that isn't a mutual match also cannot be rolled back
+          setCanUndo(false);
         }
       }
-      setCanUndo(true);
     } catch (err) {
       console.error('Failed to record swipe:', err);
     }
@@ -154,7 +161,7 @@ export default function DiscoverPage() {
             setLoading(true);
             fetchFeed();
           }}
-          className="inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all"
+          className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-rose-500 text-white text-xs font-bold shadow-md hover:bg-rose-600 active:scale-95 transition-all"
         >
           Try Again
         </button>
@@ -168,7 +175,7 @@ export default function DiscoverPage() {
       <Confetti active={showConfetti} />
 
       {/* Top Header - Coy Brand Style */}
-      <header className="flex-shrink-0 px-4 py-2.5 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
+      <header className="flex-shrink-0 px-4 py-3 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
         <div className="flex items-center gap-1.5">
           <div className="flex items-baseline">
             <span className="text-2xl font-black tracking-tight text-gray-900 leading-none">coy</span>
@@ -179,9 +186,10 @@ export default function DiscoverPage() {
           </span>
         </div>
 
+        {/* Matches Pill - Generous padding so text never touches the pill edges */}
         <Link
           href="/matches"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap transition-all hover:bg-rose-100/70 active:scale-95 shadow-sm"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap leading-none transition-all hover:bg-rose-100/70 active:scale-95 shadow-sm"
         >
           <span>💕</span>
           <span>Matches</span>
@@ -207,20 +215,20 @@ export default function DiscoverPage() {
         )}
       </div>
 
-      {/* Action Buttons Bar - Fixed Height, Spaced Cleanly from TabBar */}
+      {/* Action Buttons Bar */}
       {profiles.length > 0 && (
         <div className="flex-shrink-0 h-[72px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/95 backdrop-blur-sm border-t border-gray-100/80">
-          {/* Undo Button */}
+          {/* Undo Button - ONLY enabled after passing someone by accident */}
           <button
             onClick={handleUndo}
             disabled={!canUndo || undoing}
             className={`w-11 h-11 rounded-full inline-flex items-center justify-center transition-all duration-150 ${
               canUndo
-                ? 'bg-amber-50 border-2 border-amber-300 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90'
-                : 'bg-gray-100 border border-gray-200 text-gray-300 cursor-not-allowed opacity-50'
+                ? 'bg-amber-50 border-2 border-amber-300 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90 cursor-pointer'
+                : 'bg-gray-100 border border-gray-200 text-gray-300 cursor-not-allowed opacity-40'
             }`}
-            title="Undo last swipe (Ctrl+Z)"
-            aria-label="Undo"
+            title={canUndo ? 'Undo last pass (Ctrl+Z)' : 'Undo is only available after passing someone'}
+            aria-label="Undo pass"
           >
             <svg
               width="20"

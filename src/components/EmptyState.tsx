@@ -30,10 +30,10 @@ export default function EmptyState({ onReset }: EmptyStateProps) {
         You&apos;ve swiped through all available profiles. View your mutual connections or restart the demo feed.
       </p>
 
-      <div className="flex flex-col gap-2.5 w-full max-w-xs">
+      <div className="flex flex-col gap-3 w-full max-w-xs">
         <Link
           href="/matches"
-          className="w-full py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none"
+          className="w-full h-12 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none px-6"
         >
           View Mutual Matches 💕
         </Link>
@@ -41,7 +41,7 @@ export default function EmptyState({ onReset }: EmptyStateProps) {
         {onReset && (
           <button
             onClick={onReset}
-            className="w-full py-2.5 rounded-full bg-white border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-50 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none shadow-sm"
+            className="w-full h-11 rounded-full bg-white border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-50 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none shadow-sm px-6"
           >
             🔄 Reset Swipes (Demo)
           </button>

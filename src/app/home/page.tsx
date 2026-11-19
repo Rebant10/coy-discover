@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col items-center justify-center h-full px-8 text-center bg-gray-50/40 select-none">
       <div className="flex items-baseline mb-4">
-        <span className="text-4xl font-black tracking-tight text-gray-900">coy</span>
+        <span className="text-4xl font-black tracking-tight text-gray-900 leading-none">coy</span>
         <span className="w-3.5 h-3.5 rounded-full bg-rose-500 ml-1" />
       </div>
 
@@ -17,11 +17,13 @@ export default function HomePage() {
         As per the assignment brief, this Home tab is kept blank as a placeholder. Head over to the Discover tab to try the swipe experience!
       </p>
 
+      {/* Button with generous horizontal padding so text never touches rounded ends */}
       <Link
         href="/discover"
-        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs shadow-md shadow-rose-500/25 active:scale-95 transition-all"
+        className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs shadow-md shadow-rose-500/25 active:scale-95 transition-all whitespace-nowrap leading-none"
       >
-        Go to Discover ✨
+        <span>Go to Discover</span>
+        <span>✨</span>
       </Link>
     </div>
   );

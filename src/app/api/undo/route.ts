@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 
-// POST /api/undo - undo the last swipe
+// POST /api/undo - undo the last accidental pass (dislike)
 export async function POST() {
   try {
     const db = getDb();
@@ -16,10 +16,18 @@ export async function POST() {
       return NextResponse.json({ success: false, message: 'Nothing to undo' }, { status: 400 });
     }
 
-    // Delete it
+    // Rewind is exclusively for accidental passes (left swipes). Matches/likes cannot be rolled back.
+    if (lastSwipe.action !== 'pass') {
+      return NextResponse.json(
+        { success: false, message: 'Rollback is only available for passed profiles' },
+        { status: 400 }
+      );
+    }
+
+    // Delete the pass swipe record
     db.prepare('DELETE FROM swipes WHERE id = ?').run(lastSwipe.id);
 
-    // Get the profile that was undone so frontend can re-add it
+    // Get the profile that was undone so the frontend can restore it to the deck
     const profile = db.prepare('SELECT * FROM profiles WHERE id = ?').get(lastSwipe.swiped_id) as {
       id: number;
       name: string;
@@ -41,4 +49,3 @@ export async function POST() {
     return NextResponse.json({ error: 'Failed to undo' }, { status: 500 });
   }
 }
-

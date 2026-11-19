@@ -22,10 +22,10 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
         loading="eager"
       />
 
-      {/* Top Floating Badge */}
-      <div className="absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/45 backdrop-blur-md border border-white/15 text-white text-[11px] font-semibold leading-none shadow-sm">
+      {/* Top Floating Badge - Generous padding so text never touches curved pill ends */}
+      <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white text-[11px] font-bold leading-none shadow-sm">
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-        <span>Active nearby</span>
+        <span className="tracking-wide">Active nearby</span>
       </div>
 
       {/* Top Right Info Toggle Button */}
@@ -34,17 +34,17 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           e.stopPropagation();
           setShowDetails(!showDetails);
         }}
-        className="absolute top-3.5 right-3.5 z-20 w-8 h-8 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white inline-flex items-center justify-center hover:bg-black/60 transition-colors shadow-sm"
+        className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-white inline-flex items-center justify-center hover:bg-black/70 transition-colors shadow-sm"
         aria-label="Toggle details"
       >
         <span className="text-xs font-bold font-serif leading-none">{showDetails ? '✕' : 'ℹ'}</span>
       </button>
 
       {/* Dark Vignette Gradient */}
-      <div className="absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-black/95 via-black/60 via-45% to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/95 via-black/60 via-40% to-transparent pointer-events-none" />
 
-      {/* Card Information Overlay */}
-      <div className="relative z-10 p-4 sm:p-5 text-white flex flex-col gap-1.5">
+      {/* Card Information Overlay - pb-7 ensures bottom tags are well above the card's rounded bottom border */}
+      <div className="relative z-10 p-4 sm:p-5 pb-7 sm:pb-8 text-white flex flex-col gap-1.5">
         {/* Name & Age Row */}
         <div className="flex items-baseline gap-2">
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md truncate">
@@ -76,12 +76,12 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           {profile.bio}
         </p>
 
-        {/* Interest tags (compact, guaranteed to fit comfortably inside the card) */}
+        {/* Interest tags - compact & elevated with bottom clearance */}
         <div className="flex flex-wrap gap-1.5 pt-0.5">
-          {profile.interests.slice(0, 4).map((interest) => (
+          {profile.interests.slice(0, 3).map((interest) => (
             <span
               key={interest}
-              className="inline-flex items-center px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] font-semibold tracking-tight leading-none"
+              className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white text-[10px] font-bold tracking-tight leading-none"
             >
               {interest}
             </span>
