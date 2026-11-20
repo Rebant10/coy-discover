@@ -188,13 +188,12 @@ CREATE TABLE swipes (
 - Matches are only shown when **both** users have liked each other
 - Pre-seeded likes are invisible to the frontend until a mutual like occurs
 
-## 📱 Mobile-First
+## 📱 Responsive & Mobile-First Design
 
-- Touch-friendly drag gestures for swiping
-- Responsive card sizing and layout
-- Fixed bottom tab bar
-- Dynamic viewport height (`dvh`) for proper mobile browser support
-- Disabled pull-to-refresh and tap highlight for a native app feel
+- **Mobile View & Emulation** — Fully responsive for Android and iOS devices. When tested in Chrome DevTools (`F12` → `Ctrl + Shift + M`), it seamlessly fills the viewport with native touch gestures (`pan-x pan-y`, disabled pull-to-refresh, transparent tap highlights).
+- **Clean Desktop Layout** — Functions as a clean, standard web app centered on desktop viewports without unnecessary simulator frames, notches, or sidebars.
+- **Generous Bubble & Pill Spacing** — Every badge, chip, and button includes generous horizontal and vertical padding so text and emojis float comfortably inside rounded capsules with zero border collisions.
+- **Dynamic Viewport Height (`100dvh`)** — Automatically adjusts to mobile browser address bars and bottom bars without layout shifting.
 
 ## 🔄 Reset Data
 

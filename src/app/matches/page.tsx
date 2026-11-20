@@ -56,7 +56,8 @@ export default function MatchesPage() {
 
         <Link
           href="/discover"
-          className="inline-flex items-center justify-center gap-1.5 h-8 px-4 rounded-full bg-rose-50 hover:bg-rose-100/80 border border-rose-200/90 text-rose-600 text-xs font-bold whitespace-nowrap transition-all active:scale-95 shadow-xs"
+          className="inline-flex items-center justify-center gap-1.5 rounded-full bg-rose-50 hover:bg-rose-100/80 border border-rose-200/90 text-rose-600 text-xs font-bold whitespace-nowrap transition-all active:scale-95 shadow-xs"
+          style={{ paddingLeft: '18px', paddingRight: '18px', paddingTop: '8px', paddingBottom: '8px' }}
         >
           <span>+ Discover</span>
         </Link>
@@ -156,7 +157,8 @@ export default function MatchesPage() {
                       {match.profile.interests.slice(0, 3).map((interest) => (
                         <span
                           key={interest}
-                          className="inline-flex items-center justify-center h-5 px-2.5 rounded-full bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-semibold leading-none shadow-xs"
+                          className="inline-flex items-center justify-center rounded-full bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-semibold leading-none shadow-xs"
+                          style={{ paddingLeft: '12px', paddingRight: '12px', paddingTop: '5px', paddingBottom: '5px' }}
                         >
                           {interest}
                         </span>
@@ -171,7 +173,8 @@ export default function MatchesPage() {
                         e.stopPropagation();
                         alert(`Opening chat with ${match.profile.name}! 👋`);
                       }}
-                      className="inline-flex items-center justify-center h-8 px-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all whitespace-nowrap leading-none"
+                      className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all whitespace-nowrap leading-none"
+                      style={{ paddingLeft: '18px', paddingRight: '18px', paddingTop: '8px', paddingBottom: '8px' }}
                     >
                       Say Hi 👋
                     </button>

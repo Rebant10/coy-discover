@@ -26,7 +26,8 @@ export default function HomePage() {
 
         <Link
           href="/discover"
-          className="inline-flex items-center justify-center gap-2 h-10 px-6 rounded-full bg-black text-white text-xs font-bold shadow-md hover:bg-gray-800 active:scale-95 transition-all whitespace-nowrap leading-none"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white text-xs font-bold shadow-md hover:bg-gray-800 active:scale-95 transition-all whitespace-nowrap leading-none"
+          style={{ paddingLeft: '24px', paddingRight: '24px', paddingTop: '12px', paddingBottom: '12px' }}
         >
           <span>Explore Discover</span>
           <span>✨</span>

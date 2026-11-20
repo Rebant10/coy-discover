@@ -23,7 +23,10 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
       />
 
       {/* Top Floating Badge - Generous horizontal padding so text and dot never touch rounded ends */}
-      <div className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 h-7 px-3.5 rounded-full bg-black/55 backdrop-blur-md border border-white/20 text-white text-[11px] font-semibold leading-none shadow-md">
+      <div
+        className="absolute top-4 left-4 z-10 inline-flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-[11px] font-semibold leading-none shadow-md"
+        style={{ paddingLeft: '18px', paddingRight: '18px', paddingTop: '7px', paddingBottom: '7px' }}
+      >
         <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
         <span className="tracking-wide">Active nearby</span>
       </div>
@@ -87,7 +90,8 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
           {profile.interests.slice(0, 3).map((interest) => (
             <span
               key={interest}
-              className="inline-flex items-center justify-center h-6 px-3.5 rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white text-[11px] font-semibold tracking-wide leading-none shadow-xs"
+              className="inline-flex items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/25 text-white text-[11px] font-semibold tracking-wide leading-none shadow-xs"
+              style={{ paddingLeft: '18px', paddingRight: '18px', paddingTop: '7px', paddingBottom: '7px' }}
             >
               {interest}
             </span>

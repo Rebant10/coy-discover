@@ -189,7 +189,8 @@ export default function DiscoverPage() {
         {/* Matches Pill - Generous horizontal padding so text & emoji never touch the pill edges */}
         <Link
           href="/matches"
-          className="inline-flex items-center justify-center gap-1.5 h-8 px-4 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold whitespace-nowrap leading-none transition-all hover:bg-rose-100/70 active:scale-95 shadow-xs"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold whitespace-nowrap leading-none transition-all hover:bg-rose-100/70 active:scale-95 shadow-xs"
+          style={{ paddingLeft: '20px', paddingRight: '20px', paddingTop: '8px', paddingBottom: '8px' }}
         >
           <span className="text-xs">💕</span>
           <span>Matches</span>

@@ -33,7 +33,8 @@ export default function EmptyState({ onReset }: EmptyStateProps) {
       <div className="flex flex-col gap-3 w-full max-w-xs">
         <Link
           href="/matches"
-          className="w-full h-12 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none px-6"
+          className="w-full h-12 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none"
+          style={{ paddingLeft: '24px', paddingRight: '24px' }}
         >
           View Mutual Matches 💕
         </Link>
@@ -41,7 +42,8 @@ export default function EmptyState({ onReset }: EmptyStateProps) {
         {onReset && (
           <button
             onClick={onReset}
-            className="w-full h-11 rounded-full bg-white border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-50 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none shadow-sm px-6"
+            className="w-full h-11 rounded-full bg-white border border-gray-200 text-gray-600 font-bold text-xs hover:bg-gray-50 active:scale-95 transition-all inline-flex items-center justify-center whitespace-nowrap leading-none shadow-sm"
+            style={{ paddingLeft: '24px', paddingRight: '24px' }}
           >
             🔄 Reset Swipes (Demo)
           </button>

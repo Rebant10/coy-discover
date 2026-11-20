@@ -49,7 +49,8 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.1, type: 'spring' }}
-              className="inline-flex items-center justify-center h-7 px-5 rounded-full bg-rose-500/25 border border-rose-400/40 text-rose-200 text-[11px] font-extrabold tracking-wider uppercase mb-3 leading-none whitespace-nowrap shadow-sm"
+              className="inline-flex items-center justify-center rounded-full bg-rose-500/25 border border-rose-400/40 text-rose-200 text-[11px] font-extrabold tracking-wider uppercase mb-3 leading-none whitespace-nowrap shadow-sm"
+              style={{ paddingLeft: '24px', paddingRight: '24px', paddingTop: '8px', paddingBottom: '8px' }}
             >
               Mutual Connection
             </motion.div>
