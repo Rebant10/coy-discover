@@ -30,12 +30,12 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Empty state** when all profiles have been swiped, with a reset button
 
 ### Undo & Reset
-- **Undo last swipe** — changed your mind? Hit the undo button or `Ctrl+Z`
+- **Undo accidental pass** — accidentally passed on someone? Hit the undo button or `Ctrl+Z` to bring them right back to the deck (strictly disabled for likes to maintain matching integrity)
 - **Reset all swipes** — start the demo over with a single click (great for showing to others)
 
 ### Matching
 - A match happens **only when both users have liked each other** (mutual like)
-- **"It's a match!" celebration** — confetti explosion + animated modal
+- **"It's a match!" celebration** — confetti explosion + animated modal with overlapping avatars
 - **"View Matches" or "Keep Swiping"** — choose your next step after a match
 - **Match count badge** on the Matches tab — updates in real-time
 - **Never reveals** who has liked the user unless it's mutual — Coy's core privacy promise
@@ -43,22 +43,22 @@ Then open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Profile Data
 - **35 seeded mock profiles** with realistic Indian names, ages, photos, bios, cities, colleges, and interests
 - **10 profiles pre-liked** the logged-in user, so matches happen naturally during a demo
-- Placeholder avatar images via [DiceBear Avataaars](https://dicebear.com/)
+- High-resolution young professional portrait photography via Unsplash
 
 ### Persistence
 - All swipes and matches **persist across page reloads** using SQLite
 - Once a profile is swiped, it **never reappears** in the feed
 
 ### Tab Navigation
-- **Home** — Blank placeholder tab
+- **Home** — Blank placeholder tab styled after Coy's live onboarding UI
 - **Discover** — Swipe-based discovery (the main feature)
-- **Matches** — List of all mutual matches with profile details
+- **Matches** — List of all mutual matches with story tray and connection details
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
 |-------|-----------|
-| Framework | Next.js 14 (App Router) |
+| Framework | Next.js 16 (App Router) |
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | Animations | Framer Motion |

@@ -43,8 +43,11 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
       {/* Cinematic Dark Gradient Overlay - smooth multi-stop so face is clear and text is readable */}
       <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-black/95 via-black/60 via-45% to-transparent pointer-events-none" />
 
-      {/* Card Content Overlay - px-6 and pb-7 guarantee 28px clearance from bottom corner radius arcs */}
-      <div className="relative z-10 px-6 pb-7 text-white flex flex-col gap-2">
+      {/* Card Content Overlay - 38px bottom clearance guarantees tags sit completely above the 28px corner curvature */}
+      <div
+        className="relative z-10 px-6 pb-10 text-white flex flex-col gap-2"
+        style={{ paddingBottom: '38px', paddingLeft: '24px', paddingRight: '24px' }}
+      >
         {/* Name & Age Row */}
         <div className="flex items-baseline gap-2">
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md truncate">
@@ -80,7 +83,7 @@ export default function ProfileCard({ profile }: ProfileCardProps) {
         </p>
 
         {/* Interest tags - spaced generously with safe clearance from card corners */}
-        <div className="flex flex-wrap gap-2 pt-1.5">
+        <div className="flex flex-wrap gap-2 pt-1 pb-1">
           {profile.interests.slice(0, 3).map((interest) => (
             <span
               key={interest}
