@@ -175,29 +175,29 @@ export default function DiscoverPage() {
       <Confetti active={showConfetti} />
 
       {/* Top Header - Coy Brand Style */}
-      <header className="flex-shrink-0 px-4 py-3 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
-        <div className="flex items-center gap-1.5">
+      <header className="flex-shrink-0 h-14 px-5 flex items-center justify-between z-20 bg-white/95 backdrop-blur-md border-b border-gray-100/80">
+        <div className="flex items-center gap-2">
           <div className="flex items-baseline">
-            <span className="text-2xl font-black tracking-tight text-gray-900 leading-none">coy</span>
+            <span className="text-2xl font-black tracking-tight text-gray-950 leading-none">coy</span>
             <span className="w-2 h-2 rounded-full bg-rose-500 ml-0.5" />
           </div>
-          <span className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 ml-1.5">
+          <span className="text-[11px] font-extrabold uppercase tracking-wider text-gray-400 ml-1">
             Discover
           </span>
         </div>
 
-        {/* Matches Pill - Generous padding so text never touches the pill edges */}
+        {/* Matches Pill - Generous horizontal padding so text & emoji never touch the pill edges */}
         <Link
           href="/matches"
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap leading-none transition-all hover:bg-rose-100/70 active:scale-95 shadow-sm"
+          className="inline-flex items-center justify-center gap-1.5 h-8 px-4 rounded-full bg-rose-50 border border-rose-200/80 text-rose-600 text-xs font-bold whitespace-nowrap leading-none transition-all hover:bg-rose-100/70 active:scale-95 shadow-xs"
         >
-          <span>💕</span>
+          <span className="text-xs">💕</span>
           <span>Matches</span>
         </Link>
       </header>
 
       {/* Card Deck Area */}
-      <div className="flex-1 min-h-0 relative px-2.5 py-1.5 flex items-center justify-center overflow-hidden">
+      <div className="flex-1 min-h-0 relative px-3 py-2 flex items-center justify-center overflow-hidden">
         {profiles.length === 0 ? (
           <EmptyState onReset={handleReset} />
         ) : (
@@ -217,15 +217,15 @@ export default function DiscoverPage() {
 
       {/* Action Buttons Bar */}
       {profiles.length > 0 && (
-        <div className="flex-shrink-0 h-[72px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/95 backdrop-blur-sm border-t border-gray-100/80">
+        <div className="flex-shrink-0 h-[76px] px-6 flex items-center justify-center gap-5 sm:gap-6 z-20 bg-white/95 backdrop-blur-sm border-t border-gray-100">
           {/* Undo Button - ONLY enabled after passing someone by accident */}
           <button
             onClick={handleUndo}
             disabled={!canUndo || undoing}
-            className={`w-11 h-11 rounded-full inline-flex items-center justify-center transition-all duration-150 ${
+            className={`w-12 h-12 rounded-full inline-flex items-center justify-center transition-all duration-150 ${
               canUndo
                 ? 'bg-amber-50 border-2 border-amber-300 text-amber-500 shadow-md hover:bg-amber-100 active:scale-90 cursor-pointer'
-                : 'bg-gray-100 border border-gray-200 text-gray-300 cursor-not-allowed opacity-40'
+                : 'bg-gray-100/70 border border-gray-200 text-gray-300 cursor-not-allowed opacity-40'
             }`}
             title={canUndo ? 'Undo last pass (Ctrl+Z)' : 'Undo is only available after passing someone'}
             aria-label="Undo pass"
@@ -246,14 +246,14 @@ export default function DiscoverPage() {
           {/* Pass / Nope Button */}
           <button
             onClick={() => triggerAction('pass')}
-            className="w-14 h-14 rounded-full bg-white border-2 border-rose-300 text-rose-500 shadow-lg shadow-rose-100 hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
+            className="w-14 h-14 rounded-full bg-white border-2 border-rose-200 text-rose-500 shadow-md shadow-rose-100 hover:border-rose-400 hover:bg-rose-50/50 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Pass (Swipe Left)"
             aria-label="Pass"
           >
             <svg
-              width="28"
-              height="28"
-              style={{ width: '28px', height: '28px' }}
+              width="26"
+              height="26"
+              style={{ width: '26px', height: '26px' }}
               fill="none"
               stroke="currentColor"
               strokeWidth={3}
@@ -266,7 +266,7 @@ export default function DiscoverPage() {
           {/* Like / Heart Button */}
           <button
             onClick={() => triggerAction('like')}
-            className="w-15 h-15 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-600 text-white shadow-xl shadow-rose-500/35 hover:from-rose-600 hover:to-pink-600 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
+            className="w-16 h-16 rounded-full bg-gradient-to-tr from-rose-500 via-pink-500 to-rose-600 text-white shadow-xl shadow-rose-500/35 hover:brightness-105 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Like (Swipe Right)"
             aria-label="Like"
           >
@@ -284,7 +284,7 @@ export default function DiscoverPage() {
           {/* Reset Demo Button */}
           <button
             onClick={handleReset}
-            className="w-11 h-11 rounded-full bg-white border border-gray-200 text-gray-400 shadow-sm hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
+            className="w-12 h-12 rounded-full bg-white border border-gray-200 text-gray-400 shadow-xs hover:bg-gray-100 hover:text-gray-600 active:scale-90 transition-all duration-150 inline-flex items-center justify-center"
             title="Reset demo swipes"
             aria-label="Reset"
           >

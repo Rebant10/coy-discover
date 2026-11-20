@@ -56,7 +56,7 @@ export default function MatchesPage() {
 
         <Link
           href="/discover"
-          className="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-full bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 text-xs font-bold whitespace-nowrap transition-all active:scale-95 shadow-sm"
+          className="inline-flex items-center justify-center gap-1.5 h-8 px-4 rounded-full bg-rose-50 hover:bg-rose-100/80 border border-rose-200/90 text-rose-600 text-xs font-bold whitespace-nowrap transition-all active:scale-95 shadow-xs"
         >
           <span>+ Discover</span>
         </Link>
@@ -74,7 +74,7 @@ export default function MatchesPage() {
           </p>
           <Link
             href="/discover"
-            className="inline-flex items-center justify-center gap-1.5 px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/25 hover:brightness-110 active:scale-95 transition-all whitespace-nowrap"
+            className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-full bg-gradient-to-r from-rose-500 to-pink-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25 hover:brightness-110 active:scale-95 transition-all whitespace-nowrap leading-none"
           >
             <span>Start Discovering</span>
             <span>🔥</span>
@@ -152,11 +152,11 @@ export default function MatchesPage() {
                       {match.profile.college} • {match.profile.city}
                     </p>
 
-                    <div className="flex gap-1 mt-1.5 flex-wrap">
+                    <div className="flex gap-1.5 mt-1.5 flex-wrap">
                       {match.profile.interests.slice(0, 3).map((interest) => (
                         <span
                           key={interest}
-                          className="inline-flex items-center px-2 py-0.5 rounded-full bg-rose-50 text-rose-600 text-[10px] font-semibold leading-none"
+                          className="inline-flex items-center justify-center h-5 px-2.5 rounded-full bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-semibold leading-none shadow-xs"
                         >
                           {interest}
                         </span>
@@ -171,7 +171,7 @@ export default function MatchesPage() {
                         e.stopPropagation();
                         alert(`Opening chat with ${match.profile.name}! 👋`);
                       }}
-                      className="inline-flex items-center justify-center px-3 py-1.5 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[11px] font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all whitespace-nowrap leading-none"
+                      className="inline-flex items-center justify-center h-8 px-4 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-bold shadow-sm hover:brightness-105 active:scale-95 transition-all whitespace-nowrap leading-none"
                     >
                       Say Hi 👋
                     </button>

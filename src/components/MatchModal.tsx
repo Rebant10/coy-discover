@@ -44,12 +44,12 @@ export default function MatchModal({ profile, isOpen, onClose }: MatchModalProps
             transition={{ type: 'spring', stiffness: 350, damping: 24 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header Badge */}
+            {/* Header Badge - Generous horizontal padding so M and N never touch the curved capsule */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.1, type: 'spring' }}
-              className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300 text-[11px] font-extrabold tracking-wider uppercase mb-3 leading-none whitespace-nowrap"
+              className="inline-flex items-center justify-center h-7 px-5 rounded-full bg-rose-500/25 border border-rose-400/40 text-rose-200 text-[11px] font-extrabold tracking-wider uppercase mb-3 leading-none whitespace-nowrap shadow-sm"
             >
               Mutual Connection
             </motion.div>
